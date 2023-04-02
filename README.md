@@ -21,6 +21,8 @@ npm install @himanoa/ntd
 import {
   FromValidationSmartConstructor,
   makeValidationSmartConstructor,
+  Ok,
+  Err
 } from "@himanoa/ntd";
 
 declare const UserNameSym: unique symbol;
