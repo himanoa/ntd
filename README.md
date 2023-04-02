@@ -2,7 +2,8 @@
 
 ntd is TypeScript library that helps implement the new type pattern.
 
-whici is used to treat two types with same structure  as different types in TypeScript.
+whici is used to treat two types with same structure as different types in
+TypeScript.
 
 ## Installation
 
@@ -17,7 +18,10 @@ npm install @himanoa/ntd
 ```typescript
 // Type definition(user.ts)
 
-import { makeValidationSmartConstructor, FromValidationSmartConstructor } from '@himanoa/ntd'
+import {
+  FromValidationSmartConstructor,
+  makeValidationSmartConstructor,
+} from "@himanoa/ntd";
 
 declare const UserNameSym: unique symbol;
 
@@ -35,22 +39,23 @@ export const userNameSmartConstructor = makeValidationSmartConstructor<
   typeof UserNameSym
 >()(numberValidator);
 
-export type UserName = FromValidationSmartConstructor<typeof userNameSmartConstructor>
+export type UserName = FromValidationSmartConstructor<
+  typeof userNameSmartConstructor
+>;
 
 // Use definied UserName type(createUesr.ts)
-import { userNameSmartConstructor, UserName } from './user'
+import { UserName, userNameSmartConstructor } from "./user";
 
-const validUser = userNameSmartConstructor('xxx')
+const validUser = userNameSmartConstructor("xxx");
 
-if(validUser.ok) {
-  storeUser(validUser.v)
+if (validUser.ok) {
+  storeUser(validUser.v);
 }
 
-if(!validUser.ok) {
-  validUser.e // access validation error
+if (!validUser.ok) {
+  validUser.e; // access validation error
 }
 ```
-
 
 ## Contributing
 
@@ -58,4 +63,5 @@ Contributions are welcome! Please feel free to open an issue or pull request.
 
 ## License
 
-This library is licensed under the MIT license. See the [LICENSE](./LICENSE) file for more information.
+This library is licensed under the MIT license. See the [LICENSE](./LICENSE)
+file for more information.

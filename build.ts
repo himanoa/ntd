@@ -12,6 +12,9 @@ await build({
   package: {
     // package.json properties
     name: "@himanoa/ntd",
+    publishConfig: {
+      access: "public",
+    },
     version: Deno.args[0],
     description: "New type pattern definition support library",
     license: "MIT",
