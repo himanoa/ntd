@@ -1,5 +1,9 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "test": "deno test mod.test.ts",
+    "release": "deno run --allow-read --allow-env --allow-write --allow-net --allow-run scripts/build.ts",
+    "lint": "deno lint mod.ts mod.test.ts",
+    "fmt": "deno fmt mod.ts mod.test.ts",
+    "check": "deno check mod.ts mod.test.ts"
   }
 }

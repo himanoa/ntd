@@ -46,19 +46,3 @@ export function makeValidationSmartConstructor<T, K extends symbol>(): <
   };
 }
 
-//---Usages---
-declare const UserSym: unique symbol;
-
-const numberValidator: Validator<string, { kind: "notNumber" }> = (
-  v: string,
-) => {
-  if (!isNaN(v as any)) {
-    return Err({ kind: "notNumber" });
-  }
-  return Ok(v);
-};
-const userSmartConstructor = makeValidationSmartConstructor<
-  string,
-  typeof UserSym
->()(numberValidator);
-export type User = FromValidationSmartConstructor<typeof userSmartConstructor>;
