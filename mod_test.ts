@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.181.0/testing/asserts.ts";
-import { Err, makeValidationSmartConstructor, Ok, Validator } from "./main.ts";
+import { Err, makeValidationSmartConstructor, Ok, Validator } from "./mod.ts";
 
 declare const UserSym: unique symbol;
 
