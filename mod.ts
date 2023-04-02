@@ -45,4 +45,3 @@ export function makeValidationSmartConstructor<T, K extends symbol>(): <
     };
   };
 }
-
