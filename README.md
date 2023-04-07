@@ -48,14 +48,14 @@ export type UserName = FromValidationSmartConstructor<
 // Use definied UserName type(createUesr.ts)
 import { UserName, userNameSmartConstructor } from "./user";
 
-const validUser = userNameSmartConstructor("xxx");
+const validatedUser = userNameSmartConstructor("xxx");
 
-if (validUser.ok) {
-  storeUser(validUser.v);
+if (validatedUser.ok) {
+  storeUser(validatedUser.v);
 }
 
-if (!validUser.ok) {
-  validUser.e; // access validation error
+if (!validatedUser.ok) {
+  validatedUser.e; // access validation error
 }
 ```
 
