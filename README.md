@@ -24,7 +24,7 @@ import {
   Err
 } from "@himanoa/ntd";
 
-declare const UrlStringSum: unique symbol;
+declare const UrlStringSym: unique symbol;
 
 const urlVaidator: Validator<string, { kind: "invalidFormat" }> = makeVaidator<string, { kind: 'invalidFormat' }>((ok, err) => (value) => {
   try {
