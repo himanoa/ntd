@@ -20,6 +20,7 @@ npm install @himanoa/ntd
 
 import {
   makeValidator,
+  makeValidationSmartConstructor,
   Ok,
   Err
 } from "@himanoa/ntd";
