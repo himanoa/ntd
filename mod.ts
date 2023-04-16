@@ -23,11 +23,11 @@ export type FromValidationSmartConstructor<T> = T extends
 
 export type Validator<T, E> = (v: T) => Result<T, E>;
 
-export const Ok = <T, E>(v: T) => {
+const Ok = <T, E>(v: T) => {
   return { ok: true, v } as Result<T, E>;
 };
 
-export const Err = <T, E>(e: E) => {
+const Err = <T, E>(e: E) => {
   return { ok: false, e } as Result<T, E>;
 };
 
@@ -45,3 +45,23 @@ export function makeValidationSmartConstructor<T, K extends symbol>(): <
     };
   };
 }
+
+export const makeValidator = <T, E>(
+  validator: (
+    ok: (v: T) => Result<T, E>,
+    err: (v: E) => Result<T, E>,
+  ) => Validator<T, E>,
+): (value: T) => Result<T, E> => {
+  return validator(Ok, Err);
+};
+
+export const validator = makeValidator<string, { kind: "invalidUrl" }>(
+  (ok, err) => (value) => {
+    try {
+      new URL(value);
+      return ok(value);
+    } catch {
+      return err({ kind: "invalidUrl" });
+    }
+  },
+);
