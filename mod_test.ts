@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.181.0/testing/asserts.ts";
-import { makeValidationSmartConstructor, makeValidator } from "./mod.ts";
+import { Validator, makeValidationSmartConstructor, makeValidator } from "./mod.ts";
 
 declare const UserSym: unique symbol;
 
@@ -16,18 +16,19 @@ Deno.test("It return Ok value when ValidationSmartConstructor is received valid 
 });
 
 Deno.test("It return Err value when ValidationSmartConstructor is received invalid value", () => {
-  const numberValidator = makeValidator<string, { kind: "notNumber" }>(
-    (ok, err) => (value) => {
-      if (isNaN(parseInt(value, 10))) {
-        return err({ "kind": "notNumber" });
-      }
-      return ok(value);
-    },
-  );
+  const urlVaidator: Validator<string, { kind: "invalidFormat" }> = makeValidator<string, { kind: 'invalidFormat' }>((ok, err) => (value) => {
+    try {
+      new URL(value)
+      return ok(value)
+    } catch {
+      return err({kind: 'invalidFormat'})
+    }
+  })
+
   const userSmartConstructor = makeValidationSmartConstructor<
     string,
     typeof UserSym
-  >()(numberValidator);
+  >()(urlVaidator);
 
   assertEquals(userSmartConstructor("xxx").e, { kind: "notNumber" });
 });

@@ -19,43 +19,42 @@ npm install @himanoa/ntd
 // Type definition(user.ts)
 
 import {
-  FromValidationSmartConstructor,
-  makeValidationSmartConstructor,
+  makeValidator,
   Ok,
   Err
 } from "@himanoa/ntd";
 
-declare const UserNameSym: unique symbol;
+declare const UrlStringSum: unique symbol;
 
-const numberValidator: Validator<string, { kind: "notNumber" }> = (
-  v: string,
-) => {
-  if (!isNaN(v as any)) {
-    return Err({ kind: "notNumber" });
+const urlVaidator: Validator<string, { kind: "invalidFormat" }> = makeVaidator<string, { kind: 'invalidFormat' }>((ok, err) => (value) => {
+  try {
+    new URL(value)
+    return ok(value)
+  } catch {
+    return err({kind: 'invalidFormat'})
   }
-  return Ok(v);
-};
+})
 
-export const userNameSmartConstructor = makeValidationSmartConstructor<
+export const makeUrlString = makeValidationSmartConstructor<
   string,
   typeof UserNameSym
->()(numberValidator);
+>()(urlValidator);
 
-export type UserName = FromValidationSmartConstructor<
-  typeof userNameSmartConstructor
+export type UrlString = FromValidationSmartConstructor<
+  typeof makeUrlString
 >;
 
-// Use definied UserName type(createUesr.ts)
-import { UserName, userNameSmartConstructor } from "./user";
+// Use defined types
 
-const validatedUser = userNameSmartConstructor("xxx");
+const validUrlStringResult = makeUrlString("https://example.com/");
+const invalidUrlStringResult = makeUrlString("example!!!"); // 
 
-if (validatedUser.ok) {
-  storeUser(validatedUser.v);
+if (validUrlStringResult.ok) {
+  validUrlStringResult.v // https://example.com/
 }
 
-if (!validatedUser.ok) {
-  validatedUser.e; // access validation error
+if (!invalidUrlStringResult.ok) {
+  invalidUrlStringResult.e // { kind: 'invalidFormat' }
 }
 ```
 
